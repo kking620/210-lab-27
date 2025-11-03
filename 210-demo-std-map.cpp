@@ -7,6 +7,7 @@
 #include <string>
 using namespace std;
 
+//prototype functions to display menu and modify the list as determined by the user
 int menu();
 void addVillager(map<string, tuple<int, string, string>>&);
 void deleteVillager(map<string, tuple<int, string, string>>&);
@@ -25,8 +26,9 @@ int main() {
     villagers["Raymond"] = {3, "Werewolf", "I'm not a wolf, I promise."};
     villagers.insert({"Marshal", {10, "Human", "This place is so cool!"}});
 
+    //while loop that continuously displays the menu and requests a user input until the sentry value is inputted
     while (true){
-        // access the map using iterators
+        //displays the current population of the village, as well as their friendship levels, species and catchphrases
         cout << "\nVillagers and their friendship levels, species and catchphrases:" << endl;
         for (map<string, villagerDetails>::iterator it = villagers.begin(); it != villagers.end(); ++it) {
             cout << it->first << ": ";
@@ -34,15 +36,15 @@ int main() {
             cout << get<1>(it->second) << ", ";
             cout << get<2>(it->second) << "]\n";
         }
-
         cout << endl;
 
+        //displays the options for the user to modify the current village population
         int choice = menu();
 
         if (choice == 1)
-            incFriendship(villagers);
+            addVillager(villagers);
         else if (choice == 2)
-            decFriendship(villagers);
+            deleteVillager(villagers);
         else if (choice == 3)
             incFriendship(villagers);
         else if (choice == 4)
@@ -51,6 +53,7 @@ int main() {
             search(villagers);
         else if (choice == 6) 
             break;
+        //if the input does not fall within our bounds, this message will be outputted
         else
             cout << "Invalid input, please try again.\n";
     }
@@ -63,6 +66,7 @@ int main() {
     return 0;
 }
 
+//function that displays the options for the user in which they can interact with the village population
 int menu () {
     int choice;
     
@@ -75,9 +79,11 @@ int menu () {
     cout << "6. Exit\n";
     cin >> choice;
 
+    //returns the number corresponding to the user's input
     return choice;
 }
 
+//void function that dins and displays a specific villager's information
 void search(map<string, tuple<int, string, string>> &v) {
     // search for an element using .find() to avoid errors
     string searchKey = "";
@@ -95,33 +101,32 @@ void search(map<string, tuple<int, string, string>> &v) {
         cout << endl << searchKey << " not found." << endl;
 }
 
+//void function that gathers data from the user's input and adds it to the map once all data has been gathered
 void addVillager(map<string, tuple<int, string, string>>& v) {
     string name;
     cout << "Villager name: ";
     cin >> name;
-    cout << endl;
-    
+    cin.ignore();
+
     int fl;
     cout << "Friendship level: ";
     cin >> fl;
-    cout << endl;
+    cin.ignore();
 
     string species;
     cout << "Species: ";
     cin >> species;
-    cout << endl;
+    cin.ignore();
 
     string catchphrase;
     cout << "Catchphrase: ";
     getline(cin, catchphrase);
-    cin.ignore();
-    cout << endl;
-
-    v.insert({name, {fl, species, catchphrase}});
 
     cout << name << " added.\n";
+    v.insert({name, {fl, species, catchphrase}});
 }
 
+//void function that deletes a specific villager found from user input and if they are not found, returns a villager not found message
 void deleteVillager(map<string, tuple<int, string, string>>& v) {
     string name;
 
@@ -136,6 +141,7 @@ void deleteVillager(map<string, tuple<int, string, string>>& v) {
         cout << endl << name << " not found." << endl;
 }
 
+//void function that increases the friendship level of a villager as long as their friendship level is already within our bounds and will not exceed it
 void incFriendship(map<string, tuple<int, string, string>> &v) {
     string searchKey = "";
     cout << "Who's friendship level do you wish to increase? ";
@@ -152,6 +158,7 @@ void incFriendship(map<string, tuple<int, string, string>> &v) {
         cout << endl << searchKey << " not found." << endl;
 }
 
+//void function that decreases the friendship level of a villager as long as their friendship level is already within our bounds and will not go below it
 void decFriendship(map<string, tuple<int, string, string>> &v) {
     string searchKey = "";
     cout << "Who's friendship level do you wish to decrease? ";
