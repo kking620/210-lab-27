@@ -7,6 +7,11 @@
 #include <string>
 using namespace std;
 
+int menu();
+void incFriendship(map<string, tuple<int, string, string>>);
+void decFriendship(map<string, tuple<int, string, string>>);
+void search(map<string, tuple<int, string, string>>);
+
 int main() {
     // declarations
     using villagerDetails = tuple<int, string, string>;
@@ -40,11 +45,41 @@ int main() {
 
     // delete an element
     villagers.erase("Raymond");
+    
+    int choice = menu();
 
+    incFriendship(villagers);
+    decFriendship(villagers);
+    search(villagers);
+
+    // report size, clear, report size again to confirm map operations
+    cout << "\nSize before clear: " << villagers.size() << endl;
+    villagers.clear();
+    cout << "Size after clear: " << villagers.size() << endl;
+
+    return 0;
+}
+
+int menu () {
+    int choice;
+    
+    cout << "What would you like to do?\n";
+    cout << "1. Increase Friendship\n";
+    cout << "2. Decrease Friendship\n";
+    cout << "3. Search for Villager\n";
+    cout << "4. Exit\n";
+    cin >> choice;
+
+    return choice;
+}
+
+void search(map<string, tuple<int, string, string>> v) {
     // search for an element using .find() to avoid errors
-    string searchKey = "Audie";
-    auto it = villagers.find(searchKey);
-    if (it != villagers.end()) {  // the iterator points to beyond the end of the map
+    string searchKey = "";
+    cout << "Who would you like to find? ";
+    cin >> searchKey;
+    auto it = v.find(searchKey);
+    if (it != v.end()) {  // the iterator points to beyond the end of the map
                                        // if searchKey is not found
         cout << "\nFound " << searchKey << "'s friendship level, species, and catchphrase: ";
         cout << "[" << get<0>(it->second) << ", ";
@@ -53,11 +88,30 @@ int main() {
         cout << endl;
     } else
         cout << endl << searchKey << " not found." << endl;
+}
 
-    // report size, clear, report size again to confirm map operations
-    cout << "\nSize before clear: " << villagers.size() << endl;
-    villagers.clear();
-    cout << "Size after clear: " << villagers.size() << endl;
+void incFriendship(map<string, tuple<int, string, string>> v) {
+    string searchKey = "";
+    cout << "Who's friendship level do you wish to increase? ";
+    cin >> searchKey;
 
-    return 0;
+    auto it = v.find(searchKey);
+    if (it != v.end()) {
+        get<0>(it->second)++;
+    }
+    else    
+        cout << endl << searchKey << " not found." << endl;
+}
+
+void decFriendship(map<string, tuple<int, string, string>> v) {
+    string searchKey = "";
+    cout << "Who's friendship level do you wish to decrease? ";
+    cin >> searchKey;
+
+    auto it = v.find(searchKey);
+    if (it != v.end()) {
+        get<0>(it->second)--;
+    }
+    else    
+        cout << endl << searchKey << " not found." << endl;
 }
