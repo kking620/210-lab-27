@@ -4,11 +4,12 @@
 #include <map>
 #include <vector>
 #include <tuple>
+#include <string>
 using namespace std;
 
 int main() {
     // declarations
-    tuple<int, string, string> villagerDetails;
+    using villagerDetails = tuple<int, string, string>;
     map<string, villagerDetails> villagers;
 
     // insert elements into the map
@@ -21,19 +22,19 @@ int main() {
     cout << "Villagers and their favorite colors (range-based for loop):" << endl;
     for (auto pair : villagers) {
         cout << pair.first << ": ";
-        for (auto color : pair.second)
-            cout << color << " ";
+        cout << "[" << get<0>(pair.second) << ", ";
+        cout << get<1>(pair.second) << ", ";
+        cout << get<2>(pair.second) << "]\n";
         cout << endl;
     }
 
     // access the map using iterators
     cout << "\nVillagers and their favorite colors (iterators):" << endl;
-    for (map<string, vector<string>>::iterator it = villagers.begin(); 
-                                               it != villagers.end(); ++it) {
+    for (map<string, villagerDetails>::iterator it = villagers.begin(); it != villagers.end(); ++it) {
         cout << it->first << ": ";
-        for (auto color : it->second) {
-            cout << color << " ";
-        }
+        cout << "[" << get<0>(it->second) << ", ";
+        cout << get<1>(it->second) << ", ";
+        cout << get<2>(it->second) << "]\n";
         cout << endl;
     }
 
@@ -46,8 +47,9 @@ int main() {
     if (it != villagers.end()) {  // the iterator points to beyond the end of the map
                                        // if searchKey is not found
         cout << "\nFound " << searchKey << "'s favorite colors: ";
-        for (auto color : it->second)  // range loop to traverse the value/vector
-            cout << color << " ";
+        cout << "[" << get<0>(it->second) << ", ";
+        cout << get<1>(it->second) << ", ";
+        cout << get<2>(it->second) << "]\n";
         cout << endl;
     } else
         cout << endl << searchKey << " not found." << endl;
