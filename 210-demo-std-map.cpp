@@ -8,6 +8,8 @@
 using namespace std;
 
 int menu();
+void addVillager(map<string, tuple<int, string, string>>&);
+void deleteVillager(map<string, tuple<int, string, string>>&);
 void incFriendship(map<string, tuple<int, string, string>>&);
 void decFriendship(map<string, tuple<int, string, string>>&);
 void search(map<string, tuple<int, string, string>>&);
@@ -22,9 +24,6 @@ int main() {
     villagers["Audie"] = {5, "Human", "Howdy partner!"};
     villagers["Raymond"] = {3, "Werewolf", "I'm not a wolf, I promise."};
     villagers.insert({"Marshal", {10, "Human", "This place is so cool!"}});
-
-    // delete an element
-    villagers.erase("Raymond");
 
     while (true){
         // access the map using iterators
@@ -45,8 +44,12 @@ int main() {
         else if (choice == 2)
             decFriendship(villagers);
         else if (choice == 3)
+            incFriendship(villagers);
+        else if (choice == 4)
+            decFriendship(villagers);
+        else if (choice == 5)
             search(villagers);
-        else if (choice == 4) 
+        else if (choice == 6) 
             break;
         else
             cout << "Invalid input, please try again.\n";
@@ -64,10 +67,12 @@ int menu () {
     int choice;
     
     cout << "What would you like to do?\n";
-    cout << "1. Increase Friendship\n";
-    cout << "2. Decrease Friendship\n";
-    cout << "3. Search for Villager\n";
-    cout << "4. Exit\n";
+    cout << "1. Add Villager\n";
+    cout << "2. Delete Villager\n";
+    cout << "3. Increase Friendship\n";
+    cout << "4. Decrease Friendship\n";
+    cout << "5. Search for Villager\n";
+    cout << "6. Exit\n";
     cin >> choice;
 
     return choice;
@@ -88,6 +93,47 @@ void search(map<string, tuple<int, string, string>> &v) {
         cout << endl;
     } else
         cout << endl << searchKey << " not found." << endl;
+}
+
+void addVillager(map<string, tuple<int, string, string>>& v) {
+    string name;
+    cout << "Villager name: ";
+    cin >> name;
+    cout << endl;
+    
+    int fl;
+    cout << "Friendship level: ";
+    cin >> fl;
+    cout << endl;
+
+    string species;
+    cout << "Species: ";
+    cin >> species;
+    cout << endl;
+
+    string catchphrase;
+    cout << "Catchphrase: ";
+    getline(cin, catchphrase);
+    cin.ignore();
+    cout << endl;
+
+    v.insert({name, {fl, species, catchphrase}});
+
+    cout << name << " added.\n";
+}
+
+void deleteVillager(map<string, tuple<int, string, string>>& v) {
+    string name;
+
+    cout << "Which villager would you like to remove?\n";
+    cin >> name;
+    
+    auto it = v.find(name);
+    if (it != v.end()) {
+        v.erase(name);
+    }
+    else    
+        cout << endl << name << " not found." << endl;
 }
 
 void incFriendship(map<string, tuple<int, string, string>> &v) {
