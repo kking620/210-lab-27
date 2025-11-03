@@ -8,9 +8,9 @@
 using namespace std;
 
 int menu();
-void incFriendship(map<string, tuple<int, string, string>>);
-void decFriendship(map<string, tuple<int, string, string>>);
-void search(map<string, tuple<int, string, string>>);
+void incFriendship(map<string, tuple<int, string, string>>&);
+void decFriendship(map<string, tuple<int, string, string>>&);
+void search(map<string, tuple<int, string, string>>&);
 
 int main() {
     // declarations
@@ -73,7 +73,7 @@ int menu () {
     return choice;
 }
 
-void search(map<string, tuple<int, string, string>> v) {
+void search(map<string, tuple<int, string, string>> &v) {
     // search for an element using .find() to avoid errors
     string searchKey = "";
     cout << "Who would you like to find? ";
@@ -81,16 +81,16 @@ void search(map<string, tuple<int, string, string>> v) {
     auto it = v.find(searchKey);
     if (it != v.end()) {  // the iterator points to beyond the end of the map
                                        // if searchKey is not found
-        cout << "\nFound " << searchKey << "'s friendship level, species, and catchphrase: ";
-        cout << "[" << get<0>(it->second) << ", ";
-        cout << get<1>(it->second) << ", ";
-        cout << get<2>(it->second) << "]\n";
+        cout << "\nFound " << searchKey << "'s friendship level, species, and catchphrase: \n";
+        cout << "Friendship level: " << get<0>(it->second) << endl;
+        cout << "Species: " << get<1>(it->second) << endl;
+        cout << "Catchphrase: " << get<2>(it->second) << endl;
         cout << endl;
     } else
         cout << endl << searchKey << " not found." << endl;
 }
 
-void incFriendship(map<string, tuple<int, string, string>> v) {
+void incFriendship(map<string, tuple<int, string, string>> &v) {
     string searchKey = "";
     cout << "Who's friendship level do you wish to increase? ";
     cin >> searchKey;
@@ -106,7 +106,7 @@ void incFriendship(map<string, tuple<int, string, string>> v) {
         cout << endl << searchKey << " not found." << endl;
 }
 
-void decFriendship(map<string, tuple<int, string, string>> v) {
+void decFriendship(map<string, tuple<int, string, string>> &v) {
     string searchKey = "";
     cout << "Who's friendship level do you wish to decrease? ";
     cin >> searchKey;
