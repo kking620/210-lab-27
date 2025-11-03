@@ -19,7 +19,7 @@ int main() {
     villagers.insert({"Marshal", {10, "Human", "This place is so cool!"}});
 
     // access the map using a range-based for loop
-    cout << "Villagers and their favorite colors (range-based for loop):" << endl;
+    cout << "Villagers and their friendship levels, species and catchphrases (range-based for loop):" << endl;
     for (auto pair : villagers) {
         cout << pair.first << ": ";
         cout << "[" << get<0>(pair.second) << ", ";
@@ -29,7 +29,7 @@ int main() {
     }
 
     // access the map using iterators
-    cout << "\nVillagers and their favorite colors (iterators):" << endl;
+    cout << "\nVillagers and their friendship levels, species and catchphrases (iterators):" << endl;
     for (map<string, villagerDetails>::iterator it = villagers.begin(); it != villagers.end(); ++it) {
         cout << it->first << ": ";
         cout << "[" << get<0>(it->second) << ", ";
@@ -46,7 +46,7 @@ int main() {
     auto it = villagers.find(searchKey);
     if (it != villagers.end()) {  // the iterator points to beyond the end of the map
                                        // if searchKey is not found
-        cout << "\nFound " << searchKey << "'s favorite colors: ";
+        cout << "\nFound " << searchKey << "'s friendship level, species, and catchphrase: ";
         cout << "[" << get<0>(it->second) << ", ";
         cout << get<1>(it->second) << ", ";
         cout << get<2>(it->second) << "]\n";
