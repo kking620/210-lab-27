@@ -23,34 +23,34 @@ int main() {
     villagers["Raymond"] = {3, "Werewolf", "I'm not a wolf, I promise."};
     villagers.insert({"Marshal", {10, "Human", "This place is so cool!"}});
 
-    // access the map using a range-based for loop
-    cout << "Villagers and their friendship levels, species and catchphrases (range-based for loop):" << endl;
-    for (auto pair : villagers) {
-        cout << pair.first << ": ";
-        cout << "[" << get<0>(pair.second) << ", ";
-        cout << get<1>(pair.second) << ", ";
-        cout << get<2>(pair.second) << "]\n";
-        cout << endl;
-    }
-
-    // access the map using iterators
-    cout << "\nVillagers and their friendship levels, species and catchphrases (iterators):" << endl;
-    for (map<string, villagerDetails>::iterator it = villagers.begin(); it != villagers.end(); ++it) {
-        cout << it->first << ": ";
-        cout << "[" << get<0>(it->second) << ", ";
-        cout << get<1>(it->second) << ", ";
-        cout << get<2>(it->second) << "]\n";
-        cout << endl;
-    }
-
     // delete an element
     villagers.erase("Raymond");
-    
-    int choice = menu();
 
-    incFriendship(villagers);
-    decFriendship(villagers);
-    search(villagers);
+    while (true){
+        // access the map using iterators
+        cout << "\nVillagers and their friendship levels, species and catchphrases:" << endl;
+        for (map<string, villagerDetails>::iterator it = villagers.begin(); it != villagers.end(); ++it) {
+            cout << it->first << ": ";
+            cout << "[" << get<0>(it->second) << ", ";
+            cout << get<1>(it->second) << ", ";
+            cout << get<2>(it->second) << "]\n";
+        }
+
+        cout << endl;
+
+        int choice = menu();
+
+        if (choice == 1)
+            incFriendship(villagers);
+        else if (choice == 2)
+            decFriendship(villagers);
+        else if (choice == 3)
+            search(villagers);
+        else if (choice == 4) 
+            break;
+        else
+            cout << "Invalid input, please try again.\n";
+    }
 
     // report size, clear, report size again to confirm map operations
     cout << "\nSize before clear: " << villagers.size() << endl;
@@ -97,7 +97,10 @@ void incFriendship(map<string, tuple<int, string, string>> v) {
 
     auto it = v.find(searchKey);
     if (it != v.end()) {
-        get<0>(it->second)++;
+         if (get<0>(it->second) >= 0 && get<0>(it->second) <= 10)
+            get<0>(it->second)++;
+        else if (get<0>(it->second) > 10)
+            cout << "The villager can't get any more friendly.\n";
     }
     else    
         cout << endl << searchKey << " not found." << endl;
@@ -110,7 +113,10 @@ void decFriendship(map<string, tuple<int, string, string>> v) {
 
     auto it = v.find(searchKey);
     if (it != v.end()) {
-        get<0>(it->second)--;
+        if (get<0>(it->second) >= 0 && get<0>(it->second) <= 10)
+            get<0>(it->second)--;
+        else if (get<0>(it->second) < 0)
+            cout << "The villager can't get any less friendly.\n";
     }
     else    
         cout << endl << searchKey << " not found." << endl;
